@@ -22,9 +22,9 @@ module.exports = {
         // Field under which the remote schema will be accessible. You'll use this in your Gatsby query
         fieldName: "swapi",
         // Url to query from
-        url: `https://fbbmocusy5dgng6elseajuggt4.appsync-api.eu-west-1.amazonaws.com/graphql`,
+        url: `https://3ibkqi365jfzvivalopoblzsuq.appsync-api.eu-west-1.amazonaws.com/graphql`,
         headers: {
-          "x-api-key": "da2-nuo2pxnjdjf2pdm3krclbqbd3i", // ENTER YOUR API KEY HERE
+          "x-api-key": "da2-4e5hpgtowjah5hgajyfh2e7cju", // ENTER YOUR API KEY HERE
         },
 
       },
