@@ -58,6 +58,12 @@ export class BackEndStack extends cdk.Stack {
     handler: "createNote2.handler",
     runtime: lambda.Runtime.NODEJS_10_X,
   });
+
+  // const pipeLineLambda : any = new lambda.Function(this, "pipeLineFunction", {
+  //   code: lambda.Code.fromAsset('lambda-fns'),
+  //   handler: "pipelinedeploy.handler",
+  //   runtime: lambda.Runtime.NODEJS_10_X,
+  // });
   
     // RULE ON DEFAULT EVENT BUS TO TARGET ECHO LAMBDA
   const rule : any = new events.Rule(this, "AppSyncEventBridgeRule", {
@@ -66,6 +72,7 @@ export class BackEndStack extends cdk.Stack {
     },
   });
   rule.addTarget(new targets.LambdaFunction(echoLambda));
+  
   
 
 
@@ -206,6 +213,8 @@ const pipeline = new CodePipeline.Pipeline(this, 'GatsbyPipeline', {
   crossAccountKeys: false,  //Pipeline construct creates an AWS Key Management Service (AWS KMS) which cost $1/month. this will save your $1.
   restartExecutionOnUpdate: true,  //Indicates whether to rerun the AWS CodePipeline pipeline after you update it.
 });
+
+rule.addTarget(new targets.CodePipeline(pipeline));
 
 ///Adding stages to pipeline
 const oauth : any = cdk.SecretValue.secretsManager('GitHubToken2')

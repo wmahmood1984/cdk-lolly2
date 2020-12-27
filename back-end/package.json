@@ -36,6 +36,7 @@
     "@aws-cdk/aws-sns": "1.75.0",
     "@aws-cdk/aws-sns-subscriptions": "1.75.0",
     "@aws-cdk/aws-sqs": "1.75.0",
-    "@aws-cdk/core": "1.75.0"
+    "@aws-cdk/core": "1.75.0",
+    "boto3": "0.0.1"
   }
 }
