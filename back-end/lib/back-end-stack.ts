@@ -139,5 +139,114 @@ notesTable.grantFullAccess(echoLambda)
 notesLambda.addEnvironment('NOTES_TABLE', notesTable.tableName);
 echoLambda.addEnvironment('NOTES_TABLE', notesTable.tableName);
 
+const websiteBucket = new s3.Bucket(this, "websitebucket", {
+  websiteIndexDocument: 'index.html',
+  publicReadAccess: true
+})
+
+const distribution = new cloudfront.Distribution(this, "Distribution", {
+  defaultBehavior: { origin : new origins.S3Origin(websiteBucket)}
+})
+
+const display = new cdk.CfnOutput(this, "output", {
+  value: distribution.domainName,
+})
+new s3deployment.BucketDeployment(this, "DeployWebsite", {
+  sources: [s3deployment.Source.asset('../front-end/public')],
+  destinationBucket: websiteBucket,
+  
+  distribution: distribution
+})
+
+const sourceOutput = new CodePipeline.Artifact();
+const S3Output = new CodePipeline.Artifact();
+
+//Code build action, Here you will define a complete build
+const s3Build = new CodeBuild.PipelineProject(this, 's3Build', {
+  buildSpec: CodeBuild.BuildSpec.fromObject({
+    version: '0.2',
+    phases: {
+      install: {
+        "runtime-versions": {
+          "nodejs": 12
+        },
+        commands: [
+          
+          'cd front-end',
+          'npm i -g gatsby',
+          'npm install',
+        ],
+      },
+      build: {
+        commands: [
+          'gatsby build',
+        ],
+      },
+    },
+    artifacts: {
+      'base-directory': './front-end/public',   ///outputting our generated Gatsby Build files to the public directory
+      "files": [
+        '**/*'
+      ]
+    },
+  }),
+  environment: {
+    buildImage: CodeBuild.LinuxBuildImage.STANDARD_3_0,   ///BuildImage version 3 because we are using nodejs environment 12
+  },
+});
+
+const policy = new PolicyStatement();
+policy.addActions('s3:*');
+policy.addResources('*');
+
+s3Build.addToRolePolicy(policy);
+
+///Define a pipeline
+const pipeline = new CodePipeline.Pipeline(this, 'GatsbyPipeline', {
+  crossAccountKeys: false,  //Pipeline construct creates an AWS Key Management Service (AWS KMS) which cost $1/month. this will save your $1.
+  restartExecutionOnUpdate: true,  //Indicates whether to rerun the AWS CodePipeline pipeline after you update it.
+});
+
+///Adding stages to pipeline
+const oauth : any = cdk.SecretValue.secretsManager('GitHubToken2')
+//First Stage Source
+pipeline.addStage({
+  stageName: 'Source',
+  actions: [
+    new CodePipelineAction.GitHubSourceAction({
+      actionName: 'Checkout',
+      owner: 'wmahmood1984',
+      repo: "cdk-virtual-lolly",
+      oauthToken: oauth, ///create token on github and save it on aws secret manager
+      output: sourceOutput,                                       ///Output will save in the sourceOutput Artifact
+      branch: "master",                                           ///Branch of your repo
+    }),
+  ],
+})
+
+pipeline.addStage({
+  stageName: 'Build',
+  actions: [
+    new CodePipelineAction.CodeBuildAction({
+      actionName: 's3Build',
+      project: s3Build,
+      input: sourceOutput,
+      outputs: [S3Output],
+    }),
+  ],
+})
+
+pipeline.addStage({
+  stageName: 'Deploy',
+  actions: [
+    new CodePipelineAction.S3DeployAction({
+      actionName: 's3Build',
+      input: S3Output,
+      bucket: websiteBucket,
+    }),
+  ],
+})
+
+
 }
 }
