@@ -1,5 +1,6 @@
 import createNote from './createNote';
 import deleteNote from './deleteNote';
+import getNoteById from './getNoteById';
 import listNotes from './listNotes';
 import updateNote from './updateNote';
 import Note from './Note';
@@ -16,7 +17,8 @@ type AppSyncEvent = {
 
 exports.handler = async (event:AppSyncEvent) => {
     switch (event.info.fieldName) {
-        
+        case "getNoteById":
+            return await getNoteById(event.arguments.noteId);
         case "createNote":
             return await createNote(event.arguments.note);
         case "listNotes":
