@@ -225,7 +225,7 @@ pipeline.addStage({
     new CodePipelineAction.GitHubSourceAction({
       actionName: 'Checkout',
       owner: 'wmahmood1984',
-      repo: "cdk-virtual-lolly",
+      repo: "cdk-lolly2",
       oauthToken: oauth, ///create token on github and save it on aws secret manager
       output: sourceOutput,                                       ///Output will save in the sourceOutput Artifact
       branch: "master",                                           ///Branch of your repo
