@@ -1,0 +1,57 @@
+# graphql/schema.graphql
+type Note {
+  id: String!
+  recepientName: String! 
+   message: String!
+   senderName: String!
+   flavourTop: String!
+   flavourMiddle: String!
+   flavourBottom: String!
+   lollyPath: String!
+}
+
+type Event {
+  result: String
+}
+
+input NoteInput {
+  id: String!
+  recepientName: String!
+   message: String!
+   senderName: String!
+   flavourTop: String!
+   flavourMiddle: String!
+   flavourBottom: String!
+   lollyPath: String!
+}
+
+input UpdateNoteInput {
+  id: String!
+  recepientName: String!
+   message: String!
+   senderName: String
+   flavourTop: String
+   flavourMiddle: String
+   flavourBottom: String
+   lollyPath: String
+}
+
+type Query {
+  getNoteById(noteId: String!): Note
+  listNotes: [Note]
+  getEvent: [Event]
+}
+
+type Mutation {
+  createNote(note: NoteInput!): Note
+  updateNote(note: UpdateNoteInput!): Note
+  deleteNote(noteId: String!): String
+  createEvent(id:String! 
+              recepientName: String!
+              message: String!
+              senderName: String!
+              flavourTop: String!
+              flavourMiddle: String!
+              flavourBottom: String!
+              lollyPath: String!): Event
+}
