@@ -97,11 +97,7 @@ const notesLambda = new lambda.Function(this, 'AppSyncNotesHandler', {
 // Set the new Lambda function as a data source for the AppSync API
 const lambdaDs = api.addLambdaDataSource('lambdaDatasource', notesLambda);
   
-// lib/appsync-cdk-app-stack.ts
-lambdaDs.createResolver({
-  typeName: "Query",
-  fieldName: "getNoteById"
-});
+
 
 lambdaDs.createResolver({
   typeName: "Query",
