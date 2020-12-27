@@ -24,7 +24,7 @@ const url =
 process.env.NODE_ENV === "development"
   ? "http://localhost:8000/"
   
-  : "http://d9blabhmhcfye.cloudfront.net/";
+  : "http://df6mdzbjk80yv.cloudfront.net/";
 
 
 const WaitingArea = () => {
