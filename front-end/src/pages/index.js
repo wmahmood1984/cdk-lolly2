@@ -3,56 +3,10 @@ import { Header } from "../component/Header"
 import Lolly from '../component/Lolly'
 import { navigate } from "gatsby"
 
-// import { useQuery, gql } from "@apollo/client"
-// import shortid from "shortid"
-
-// const GET_NOTES = gql`
-//   query {
-//     listNotes {
-//       id
-//   recepientName
-//    message
-//    senderName
-//    flavourTop
-//    flavourMiddle
-//    flavourBottom
-//    lollyPath
-        
-
-//   }
-//   }
-// `
-
-
-
 
 const Index = () => {
 
-  // const { data} = useQuery(GET_NOTES)
-  // const [createNote] = useMutation(CREATE_NOTES)
-  // console.log("data from server", data)
-  // async function handleSubmit (){
-  //   const note = {
-  //     id: shortid.generate(),
-  // recepientName: "kuch bhi",
-  //  message: "kuch bhi",
-  //  senderName: "kuch bhi",
-  //  flavourTop: "kuch bhi",
-  //  flavourMiddle: "kuch bhi",
-  //  flavourBottom: "kuch bhi",
-  //  lollyPath: "kuch bhi",
-  //   }
-  //   console.log("Creating Lolly:", note)
-    
-  //   await createNote({
-  //     variables: {
-  //       note,
-  //     },
-  //     refetchQueries:[{query:GET_NOTES}]
-  //   }
-    
-  //   )
-  // }
+
   
   return (
     <div>

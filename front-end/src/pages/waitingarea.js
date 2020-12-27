@@ -1,7 +1,6 @@
 import { gql, useQuery } from '@apollo/client';
 import React from 'react'
 import { Header } from "../component/Header"
-// import Lolly from '../component/Lolly'
 
 
 const GET_GREETING = gql`
@@ -25,7 +24,7 @@ const url =
 process.env.NODE_ENV === "development"
   ? "http://localhost:8000/"
   
-  : "https://virtuallollyaws.netlify.app/";
+  : "http://d1f53qrrtd6foh.cloudfront.net//";
 
 
 const WaitingArea = () => {
